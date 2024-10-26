@@ -1,0 +1,314 @@
+{
+	"info": {
+		"_postman_id": "956cdae8-63d7-4a2f-949c-55c62769881d",
+		"name": "User-API-Functional-and-Data-Chaining-Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38986398"
+	},
+	"item": [
+		{
+			"name": "[GET] Retrieve_User_By_ID_200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Storing the Response Body\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"//Extract the variable \r",
+							"pm.environment.set(\"id\",jsonData.id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.environment.unset(\"username\");\r",
+							"pm.environment.unset(\"useremail\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate a random string\r",
+							"var random = Math.random().toString(36).substring(2);\r",
+							"\r",
+							"// Create user email and username\r",
+							"var useremail = \"abbas\" + random + \"@gmail.com\";\r",
+							"var username = \"Anna\" + random;\r",
+							"\r",
+							"// Set the username and useremail as environment variables in Postman\r",
+							"pm.environment.set(\"username\", username);  // Corrected: Variable name should not concatenate with the value\r",
+							"pm.environment.set(\"useremail\", useremail); // Corrected: Variable name should not concatenate with the value\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ACCESS-TOKEN"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{username}}\",\r\n    \"gender\": \"male\",\r\n    \"email\": \"{{useremail}}\",\r\n    \"status\": \"active\"\r\n}"
+				},
+				"url": {
+					"raw": "{{global_Url}}/public/v2/users",
+					"host": [
+						"{{global_Url}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				},
+				"description": "Generated from cURL: curl -i -H \"Accept:application/json\" -H \"Content-Type:application/json\" -H \"Authorization: Bearer ACCESS-TOKEN\" -XPOST \"https://gorest.co.in/public/v2/graphql\" -d '{\"query\":\"mutation{createUser(input: {name: \\\"Tenali Ramakrishna\\\" gender: \\\"male\\\" email: \\\"tenali.ramakrishna@15ce.com\\\" status: \\\"active\\\"}) {user{id name gender email status}}}\"}'"
+			},
+			"response": []
+		},
+		{
+			"name": "[GET] Retrieve_a_User by ID_200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ACCESS-TOKEN"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{global_Url}}/public/v2/users/{{id}}",
+					"host": [
+						"{{global_Url}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{id}}"
+					]
+				},
+				"description": "Generated from cURL: curl -i -H \"Accept:application/json\" -H \"Content-Type:application/json\" -H \"Authorization: Bearer ACCESS-TOKEN\" -XPOST \"https://gorest.co.in/public/v2/graphql\" -d '{\"query\":\"mutation{createUser(input: {name: \\\"Tenali Ramakrishna\\\" gender: \\\"male\\\" email: \\\"tenali.ramakrishna@15ce.com\\\" status: \\\"active\\\"}) {user{id name gender email status}}}\"}'"
+			},
+			"response": []
+		},
+		{
+			"name": "[PUT] Update_User_By_ID_200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.environment.unset(\"username\");\r",
+							"pm.environment.unset(\"useremail\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate a random string\r",
+							"var random = Math.random().toString(36).substring(2);\r",
+							"\r",
+							"// Create user email and username\r",
+							"var useremail = \"abbas\" + random + \"@gmail.com\";\r",
+							"var username = \"Anna\" + random;\r",
+							"\r",
+							"// Set the username and useremail as environment variables in Postman\r",
+							"pm.environment.set(\"username\", username);  // Corrected: Variable name should not concatenate with the value\r",
+							"pm.environment.set(\"useremail\", useremail); // Corrected: Variable name should not concatenate with the value\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ACCESS-TOKEN"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{username}}\",\r\n    \"gender\": \"male\",\r\n    \"email\": \"{{useremail}}\",\r\n    \"status\": \"active\"\r\n}"
+				},
+				"url": {
+					"raw": "{{global_Url}}/public/v2/users/{{id}}",
+					"host": [
+						"{{global_Url}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{id}}"
+					]
+				},
+				"description": "Generated from cURL: curl -i -H \"Accept:application/json\" -H \"Content-Type:application/json\" -H \"Authorization: Bearer ACCESS-TOKEN\" -XPOST \"https://gorest.co.in/public/v2/graphql\" -d '{\"query\":\"mutation{createUser(input: {name: \\\"Tenali Ramakrishna\\\" gender: \\\"male\\\" email: \\\"tenali.ramakrishna@15ce.com\\\" status: \\\"active\\\"}) {user{id name gender email status}}}\"}'"
+			},
+			"response": []
+		},
+		{
+			"name": "[DELETE] Delete_User_By_ID_204",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							"\r",
+							"pm.environment.unset(\"id\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer ACCESS-TOKEN"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{global_Url}}/public/v2/users/{{id}}",
+					"host": [
+						"{{global_Url}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{id}}"
+					]
+				},
+				"description": "Generated from cURL: curl -i -H \"Accept:application/json\" -H \"Content-Type:application/json\" -H \"Authorization: Bearer ACCESS-TOKEN\" -XPOST \"https://gorest.co.in/public/v2/graphql\" -d '{\"query\":\"mutation{createUser(input: {name: \\\"Tenali Ramakrishna\\\" gender: \\\"male\\\" email: \\\"tenali.ramakrishna@15ce.com\\\" status: \\\"active\\\"}) {user{id name gender email status}}}\"}'"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "c81510bc267ab90408e0c5e5e8afc51c686bd29fb6d81dd8441c45be4888dc5e",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "global_Url",
+			"value": "https://gorest.co.in",
+			"type": "string"
+		}
+	]
+}
